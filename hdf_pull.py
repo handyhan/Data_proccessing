@@ -6,8 +6,8 @@ import numpy as np
 def file_path(sat_name):
     import glob
     data_loc = 'J:\PhD\earth_observation\Data' #'C:\Users\Hannah.N\Documents\Data'
-    folder = '\Sept_Oct_2016\MODIS L2'+ sat_name + '_25092016_20102016' #sat_name must include \ in front
-    file_name='\*5.*'
+    folder = '\Sept_Oct_2016\MODIS L2'+ sat_name + '_25092016_20102016\\' #sat_name must include \ in front
+    file_name='\*'
     files = glob.glob(data_loc+folder+file_name)
     info = []
     for i in range(0, len(files)):
@@ -25,10 +25,13 @@ def file_path(sat_name):
 
 def name_data_pull(data_loc, folder, files,i):
     import datetime
-    file = 'M'+ files[i].strip(data_loc+folder)
+    #print data_loc+folder
+    file = files[i].replace(data_loc + folder,"") 
+    print file
     sat = file[0:3]
     date = file[7:14]
     time = file[15:19]
+    #print sat,date,time
     date_time =datetime.datetime(int(date[0:4]), 1, 1,int(time[0:2]),int(time[2:4]))+ datetime.timedelta(int(date[4:7]) - 1) 
     date_time =date_time + datetime.timedelta(0,0,0,0,0,8) 
     return [sat,date_time]
