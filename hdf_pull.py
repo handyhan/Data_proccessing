@@ -1,22 +1,29 @@
 from pyhdf.SD import SD, SDC
 import numpy as np
 
-data_loc = 'J:\PhD\earth_observation\Data' #'C:\Users\Hannah.N\Documents\Data'
-folder = '\Sept_Oct_2016\MODIS L2\Aqua_25092016_20102016'
-file_type='\MYD14.A2016279.1650.006.2016280120152.hdf'
 
 
-def file_path():
+def file_path(sat_name):
     import glob
-    return glob.glob(data_loc+folder+file_type)
+    data_loc = 'J:\PhD\earth_observation\Data' #'C:\Users\Hannah.N\Documents\Data'
+    folder = '\Sept_Oct_2016\MODIS L2'+ sat_name + '_25092016_20102016' #sat_name must include \ in front
+    file_name='\*5.*'
+    files = glob.glob(data_loc+folder+file_name)
+    info = []
+    for i in range(0, len(files)):
+        sat,date_time = name_data_pull(data_loc, folder, files, i)
+        print files[i]
+        info.append([files[i],sat,date_time])
+    info = tuple(tuple(x) for x in info)
+    return info
     #file_name = '\MYD14.A2016279.1650.006.2016280120152.hdf'
     #MYD14.A2016271.0510.006.2016271135353
+    #MOD14.A2016269.0235.006.2016269094430
     #file_name = data_loc+folder+file_name
  
 
-files = file_path()
 
-def name_data_pull(i):
+def name_data_pull(data_loc, folder, files,i):
     import datetime
     file = 'M'+ files[i].strip(data_loc+folder)
     sat = file[0:3]
@@ -31,21 +38,21 @@ def name_data_pull(i):
 def read_in(file_name):
     return SD(file_name, SDC.READ)
 
-def list_sds():
+def list_sds(file):
     datasets_dic = file.datasets()
     for idx,sds in enumerate(datasets_dic.keys()):
         print idx,sds
  
 
-def sds_data_pull(sds_field):  
+def sds_data_pull(file, sds_field):  
     sds_obj = file.select(sds_field)
     return sds_obj.get()
 
-def FP_data_pull():
-    FP_lat = sds_data_pull('FP_latitude')
-    FP_long = sds_data_pull('FP_longitude')
-    FP_FRP = sds_data_pull('FP_power')
-    FP_confidence = sds_data_pull('FP_confidence')
+def FP_data_pull(file):
+    FP_lat = sds_data_pull(file,'FP_latitude')
+    FP_long = sds_data_pull(file,'FP_longitude')
+    FP_FRP = sds_data_pull(file,'FP_power')
+    FP_confidence = sds_data_pull(file,'FP_confidence')
     return np.concatenate(([FP_lat],[FP_long],[FP_FRP],[FP_confidence]),axis=0)
 
 # print np.count_nonzero(data == 7),np.count_nonzero(data == 8),np.count_nonzero(data == 9)
