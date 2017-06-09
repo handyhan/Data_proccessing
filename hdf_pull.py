@@ -14,7 +14,7 @@ def file_path(sat_name):
         sat,date_time = name_data_pull(data_loc, folder, files, i)
         print files[i]
         info.append([files[i],sat,date_time])
-    info = tuple(tuple(x) for x in info)
+    info = [tuple(x) for x in info]
     return info
     #file_name = '\MYD14.A2016279.1650.006.2016280120152.hdf'
     #MYD14.A2016271.0510.006.2016271135353
@@ -25,9 +25,7 @@ def file_path(sat_name):
 
 def name_data_pull(data_loc, folder, files,i):
     import datetime
-    #print data_loc+folder
     file = files[i].replace(data_loc + folder,"") 
-    print file
     sat = file[0:3]
     date = file[7:14]
     time = file[15:19]
