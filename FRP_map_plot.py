@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 
-
+files = hdf_pull.file_path("\Terra")
 """plotting frp with frp intensity colour for single hdf file"""
 def plot_fire(FP_data):
     # FP_data is a array with lat,long,FRP and Confidane
@@ -17,8 +17,8 @@ def plot_fire(FP_data):
     # of the map.
     # resolution = 'i' means use intermediate resolution coastlines.
     # lon_0, lat_0 are the central longitude and latitude of the projection.
-    m = Basemap(llcrnrlon=120,llcrnrlat=-20,urcrnrlon=140,urcrnrlat=-10,
-                resolution='i',projection='tmerc',lon_0=130,lat_0=-15)
+    m = Basemap(llcrnrlon=124,llcrnrlat=-19,urcrnrlon=130,urcrnrlat=-13,
+                resolution='i',projection='tmerc',lon_0=126,lat_0=-15)
                 
     m.drawcoastlines()
     #m.fillcontinents(color='coral',lake_color='aqua')
@@ -32,4 +32,10 @@ def plot_fire(FP_data):
     m.scatter(x, y, c=FRP, norm=mpl.colors.SymLogNorm(linthresh=10, vmin=0, vmax=((FRP.max())+20)))
     plt.show()
  
-#plot_fire()
+file = files[25]
+print file
+file = hdf_pull.read_in(file[0])
+
+FP_data = hdf_pull.FP_data_pull(file)
+#FRP_map_plot.plot_fire(FP_data) 
+plot_fire(FP_data)
