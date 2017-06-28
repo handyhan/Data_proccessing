@@ -18,7 +18,7 @@ for i in range (0,len(files)):
     
 
 i=0
-print files[0]
+#print files[0]
 file = hdf_pull.read_in(files[i])
 #print file
 FP_data = hdf_pull.FP_data_pull()

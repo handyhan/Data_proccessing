@@ -12,7 +12,7 @@ def file_path(sat_name):
     info = []
     for i in range(0, len(files)):
         sat,date_time = name_data_pull(data_loc, folder, files, i)
-        print files[i]
+        #print files[i]
         info.append([files[i],sat,date_time])
     info = [tuple(x) for x in info]
     return info

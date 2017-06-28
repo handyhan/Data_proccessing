@@ -17,19 +17,23 @@ def plot_fire(FP_data):
     # of the map.
     # resolution = 'i' means use intermediate resolution coastlines.
     # lon_0, lat_0 are the central longitude and latitude of the projection.
-    m = Basemap(llcrnrlon=124,llcrnrlat=-19,urcrnrlon=130,urcrnrlat=-13,
+    m = Basemap(llcrnrlon=124,llcrnrlat=-17,urcrnrlon=129,urcrnrlat=-14,
                 resolution='i',projection='tmerc',lon_0=126,lat_0=-15)
                 
     m.drawcoastlines()
-    #m.fillcontinents(color='coral',lake_color='aqua')
+    m.drawmapboundary()#(color='lightgray',fill_color='aqua')
+    m.fillcontinents(lake_color='aqua',zorder=0)
     # draw parallels and meridians.
     
-    m.drawparallels(np.arange(-40,61.,2.), labels = [True])
-    m.drawmeridians(np.arange(100.,140.,2.), labels = [True])
+    m.drawparallels(np.arange(-40,61.,0.5), labels = [True])
+    m.drawmeridians(np.arange(100.,140.,0.5), labels = [True])
     #m.drawmapboundary(fill_color='aqua')
     #FRP.max()
     x, y = m(longitude, latitude)
-    m.scatter(x, y, c=FRP, norm=mpl.colors.SymLogNorm(linthresh=10, vmin=0, vmax=((FRP.max())+20)))
+    m.scatter(x, y, c=FRP, s = 100, marker ='^', zorder=10,norm=mpl.colors.SymLogNorm(linthresh=10, vmin=0, vmax=((FRP.max())+20)))
+    m.shadedrelief()
+    cb = m.colorbar()
+    cb.set_ticks([0,10,100,400])
     plt.show()
  
 file = files[25]

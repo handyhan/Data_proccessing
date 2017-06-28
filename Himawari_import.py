@@ -17,4 +17,6 @@ longitude = df.LONGITUDE
 year=df.year
 month=df.month
 day = df.day
-time=df.tim
+time=df.time
+
+FRP.hist()
