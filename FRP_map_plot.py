@@ -7,8 +7,9 @@ import matplotlib as mpl
 
 files = hdf_pull.file_path("\Terra")
 """plotting frp with frp intensity colour for single hdf file"""
-def plot_fire(FP_data):
+def plot_fire(FP_data,i,date_time):
     # FP_data is a array with lat,long,FRP and Confidane
+    
     latitude = FP_data[0,:]
     longitude = FP_data[1,:]
     FRP=FP_data[2,:]
@@ -34,12 +35,19 @@ def plot_fire(FP_data):
     m.shadedrelief()
     cb = m.colorbar()
     cb.set_ticks([0,10,100,400])
-    plt.show()
- 
-file = files[25]
-print file
-file = hdf_pull.read_in(file[0])
+    plt.title(date_time)
+    plt.savefig('MODIS_'+ str(i) +'.png')
+    #plt.close()
+    
+i=1
+for x in files:
+    data = hdf_pull.read_in(x[0])
+    FP_data = hdf_pull.FP_data_pull(data)
+    date_time = x[2]
+    plot_fire(FP_data,i,date_time)
+    i = i+1
 
-FP_data = hdf_pull.FP_data_pull(file)
+
+#FP_data = hdf_pull.FP_data_pull(file)
 #FRP_map_plot.plot_fire(FP_data) 
-plot_fire(FP_data)
+#plot_fire(FP_data)
