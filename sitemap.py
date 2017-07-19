@@ -21,7 +21,7 @@ def plot_fire():
     # resolution = 'i' means use intermediate resolution coastlines.
     # lon_0, lat_0 are the central longitude and latitude of the projection.
     m = Basemap(llcrnrlon=100,llcrnrlat=-40,urcrnrlon=160,urcrnrlat=-5,
-                resolution='i',projection='tmerc',lon_0=130,lat_0=-20)
+                resolution='i',projection='cea',lon_0=130,lat_0=-20)
                 
     m.drawcoastlines()
     m.drawmapboundary()#(color='lightgray',fill_color='aqua')
@@ -45,7 +45,7 @@ def plot_fire():
     poly = Polygon([(x1,y1),(x2,y2),(x3,y3),(x4,y4)],facecolor='none',edgecolor='red',linewidth=3)
     plt.gca().add_patch(poly)
     plt.show()
-    plt.savefig('C:\Users\Hannah.N\Dropbox\PhD\Writting\Jan-July(17)\sitemap.png')
+    #plt.savefig('C:\Users\Hannah.N\Dropbox\PhD\Writting\Jan-July(17)\sitemap.png')
     #plt.close()
 
 plot_fire()

@@ -10,6 +10,7 @@ import datetime
 import numpy as np
 file_path = "J:\PhD\earth_observation\Data\Oct_2015\H8_201510_atm.csv"
 
+#read in the file and data
 df = pd.read_csv(file_path)
 confidence = df.FIRE_CONFIDENCE
 FRP = df.FRP_0
@@ -40,9 +41,10 @@ data = data.set_index(pd.DatetimeIndex(time['datetime']))
 start = data.index.searchsorted(datetime.datetime(2015, 10, 14, 0 ,0))
 end = data.index.searchsorted(datetime.datetime(2015, 10, 29,23,59))
 data = data.ix[start:end]
-print data.dtypes
-#select latitude and longitude of interst
 
+#select latitude and longitude of interest
 data = data[(data['LATITUDE'] < -17.2) & (data['LATITUDE'] > -18.2)]
+data = data[(data['LONGITUDE'] < 130.8) & (data['LONGITUDE'] > 128.2)]
 
-print data.shape
+#write the data to a seperate file
+data.to_csv('J:\PhD\earth_observation\Data\Oct_2015\H8_20151014_20151029_177_129.csv',sep=',')

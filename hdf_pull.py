@@ -9,6 +9,7 @@ def file_path(sat_name):
     folder = '\Sept_Oct_2016\MODIS L2'+ sat_name + '_25092016_20102016\\' #sat_name must include \ in front
     file_name='\*'
     files = glob.glob(data_loc+folder+file_name)
+    print files
     info = []
     for i in range(0, len(files)):
         sat,date_time = name_data_pull(data_loc, folder, files, i)

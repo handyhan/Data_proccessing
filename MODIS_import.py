@@ -28,7 +28,7 @@ for files in glob.glob(data_loc):
         cut = (cut.replace(cut[12:],''))
         date = np.full((1,(FP_data[0].size)),cut,dtype=float)
         SAT = [sat for x in range((FP_data[0].size))]
-        data = pd.DataFrame({'datetime': cut, 'SAT':SAT, 'LATITUDE': FP_data[0] , 'LONGITUDE': FP_data[1],'FRP':FP_data[2],'confidence':FP_data[3]})
+        data = pd.DataFrame({'datetime': cut, 'SAT':SAT, 'LATITUDE': FP_data[0] , 'LONGITUDE': FP_data[1],'FRP_0':FP_data[2],'confidence':FP_data[3]})
         appended_data.append(data)
         
         

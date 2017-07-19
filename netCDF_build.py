@@ -16,7 +16,7 @@ def file_info():
     file_info.sort(key = itemgetter(2))
     return file_info
 
-print file_info()
+#print file_info()
 
 #FP_data=hdf_pull.FP_data_pull(file)
 #file = hdf_pull.read_in(files[i])

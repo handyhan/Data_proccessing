@@ -1,11 +1,13 @@
 import hdf_pull 
+import netCDF_build as netcdf
 from mpl_toolkits.basemap import Basemap
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import csv
 
-
-files = hdf_pull.file_path("\Terra")
+files = hdf_pull.file_path("\Aqua")
+#print files
 """plotting frp with frp intensity colour for single hdf file"""
 def plot_fire(FP_data,i,date_time):
     # FP_data is a array with lat,long,FRP and Confidane
@@ -31,23 +33,44 @@ def plot_fire(FP_data,i,date_time):
     #m.drawmapboundary(fill_color='aqua')
     #FRP.max()
     x, y = m(longitude, latitude)
-    m.scatter(x, y, c=FRP, s = 100, marker ='^', zorder=10,norm=mpl.colors.SymLogNorm(linthresh=10, vmin=0, vmax=((FRP.max())+20)))
+    m.scatter(x, y, c=FRP, s = 150, marker ='^', zorder=10,norm=mpl.colors.SymLogNorm(linthresh=10, vmin=0, vmax=(1000)))
     m.shadedrelief()
     cb = m.colorbar()
-    cb.set_ticks([0,10,100,400])
+    cb.set_ticks([0,10,100,500,1000])
     plt.title(date_time)
-    plt.savefig('MODIS_'+ str(i) +'.png')
-    #plt.close()
-    
+    plt.show()
+    plt.savefig('C:\Users\Hannah.N\Documents\Data\Sept_Oct2016_data\images\MODIS_'+ str(i) +'.png')
+    plt.close()
+
+file_info = netcdf.file_info()
+#print file_info
+
+
 i=1
-for x in files:
-    data = hdf_pull.read_in(x[0])
-    FP_data = hdf_pull.FP_data_pull(data)
-    date_time = x[2]
-    plot_fire(FP_data,i,date_time)
-    i = i+1
+for x in file_info:
+    try:
+        #print x[0]
+        data = hdf_pull.read_in(x[0])
+        FP_data = hdf_pull.FP_data_pull(data)
+        date_time = x[2]
+        plot_fire(FP_data,i,date_time)
+        i = i+1   
+        
+    except ValueError as error:
+        bad_files = []
+        bad_files.append(x)
+
+with open('bad_files', 'wb') as myfile:
+    wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+    wr.writerow(bad_files)
+
+"""
+
+file = files[1]
+data = hdf_pull.read_in(file[0])
+hdf_pull.list_sds(data)
+FP_data = hdf_pull.FP_data_pull(data)
+FRP_map_plot.plot_fire(FP_data) 
+"""
 
 
-#FP_data = hdf_pull.FP_data_pull(file)
-#FRP_map_plot.plot_fire(FP_data) 
-#plot_fire(FP_data)
